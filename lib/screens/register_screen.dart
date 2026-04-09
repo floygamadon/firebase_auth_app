@@ -95,7 +95,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     if (value == null || value.isEmpty) {
                       return 'Email is required';
                     }
-                    if (!value.contains('@')) {
+
+                    final emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.com$');
+
+                    if (!emailRegex.hasMatch(value)) {
                       return 'Enter a valid email like test@gsu.com';
                     }
                     return null;
