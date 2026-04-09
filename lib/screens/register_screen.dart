@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
+import 'profile_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -33,9 +34,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
         _passwordController.text.trim(),
       );
 
-      setState(() {
-        _message = 'Registration successful';
-      });
+      if (!mounted) return;
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const ProfileScreen()),
+      );
     } on FirebaseAuthException catch (e) {
       setState(() {
         _message = e.message ?? 'Registration failed';
@@ -45,11 +48,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
         _message = 'Something went wrong';
       });
     } finally {
+      if (mounted) {
       setState(() {
         _isLoading = false;
       });
     }
   }
+}
 
   @override
   void dispose() {
